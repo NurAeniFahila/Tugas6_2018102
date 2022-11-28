@@ -23,7 +23,6 @@ import com.google.android.material.timepicker.TimeFormat;
 import java.util.Calendar;
 
 public class NotificationFragment extends Fragment{
-
     private NotificationBinding binding;
     private MaterialTimePicker picker;
     private Calendar calendar;

@@ -10,9 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+
+import com.example.a2018102_tugas5_recyclerview.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
     RecyclerView recylerView;
+    private FragmentHomeBinding binding;
     String s1[], s2[],s3[];
     int images[] = {
             R.drawable.musik,
@@ -22,12 +28,19 @@ public class HomeFragment extends Fragment {
     };
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle
-                                     savedInstanceState) {
-        return
-                inflater.inflate(R.layout.fragment_home,container,false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentHomeBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        final OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(MyWorker.class).build();
+        binding.btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                WorkManager.getInstance().enqueueUniqueWork("SUKSES", ExistingWorkPolicy.REPLACE, request);
+            }
+        });
+        return view;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
